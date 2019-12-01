@@ -16,8 +16,7 @@
 #define    BUF_MAX_SIZE    1024
 #define    PORT_NUM        9988
 #define    DEBUG_INFO(fmt,arg...)\
-	   printf("[Debug Info]:fun:%s line:%d,\
-	   "fmt"\n",__FUNCTION__,__LINE__,##arg)
+	   printf("[Debug Info]:"fmt"\n",##arg)
 
 void recv_thread(char* buf);
 int socket_fd;
@@ -102,31 +101,10 @@ void recv_thread(char* buf)
 	int ret = 0;
 	while(1)
 	{
-		DEBUG_INFO("in recv_thread!");
-		ret = recv(socket_fd,buf,BUF_MAX_SIZE,MSG_PEEK);
+		//DEBUG_INFO("in recv_thread!");
 		
-		if(ret == -1)
-		{
-			DEBUG_INFO("recv failed error = %s",strerror(errno));
-			return ;
-		}
-		if(ret > 0)
-		{
-			ret = recv(socket_fd,buf,BUF_MAX_SIZE,0);
-			DEBUG_INFO("client rev OK ! num = %d  content = %s",ret,buf);
-			#if 0
-			ret = send(new_fd,buf,strlen(buf)+1,0);
-			if(ret > 0)
-			{
-				DEBUG_INFO("server send OK ! num = %d  content = %s",ret,buf);
-			}
-			if(ret < 0)
-			{
-				DEBUG_INFO("server send failed error = %s",strerror(errno));
-			}
-			#endif
-		}
-			
+		ret = recv(socket_fd,buf,BUF_MAX_SIZE,0);
+		DEBUG_INFO("client rev OK ! num = %d\n %s",ret,buf);
 	}
 	return;
 }
